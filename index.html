@@ -7,7 +7,7 @@
 		<meta name="description" content="">
 		<meta name="author" content="">
 		<!-- <link rel="icon" href="../../favicon.ico"> -->
-		<title>CAE Dashboard</title>
+		<title>Office Tracking Dashboard</title>
 		<!-- Bootstrap core CSS -->
 		<link href="css/bootstrap.min.css" rel="stylesheet">
 		<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
@@ -30,14 +30,14 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="#">Project name</a>
+					<a class="navbar-brand" href="#">Office Tracking</a>
 				</div>
 				<div id="navbar" class="navbar-collapse collapse">
 					<ul class="nav navbar-nav navbar-right">
 						<li><a href="#">Dashboard</a></li>
-						<li><a href="#">Settings</a></li>
-						<li><a href="#">Profile</a></li>
-						<li><a href="#">Help</a></li>
+						<li><a href="#">Inventory</a></li>
+						<li><a href="#">Jobs</a></li>
+						<li><a href="#">Reports</a></li>
 					</ul>
 					<form class="navbar-form navbar-right">
 						<input type="text" class="form-control" placeholder="Search...">
@@ -49,172 +49,218 @@
 			<div class="row">
 				<div class="col-sm-3 col-md-2 sidebar">
 					<ul class="nav nav-sidebar">
-						<li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
-						<li><a href="#">Reports</a></li>
-						<li><a href="#">Analytics</a></li>
-						<li><a href="#">Export</a></li>
+						<li class="active"><a href="#">Dashboard <span class="sr-only">(current)</span></a></li>
 					</ul>
 					<ul class="nav nav-sidebar">
-						<li><a href="">Nav item</a></li>
-						<li><a href="">Nav item again</a></li>
-						<li><a href="">One more nav</a></li>
-						<li><a href="">Another nav item</a></li>
-						<li><a href="">More navigation</a></li>
+						<li><a href="">Inventory</a></li>
+						<li><a href="">New Item</a></li>
 					</ul>
 					<ul class="nav nav-sidebar">
-						<li><a href="">Nav item again</a></li>
-						<li><a href="">One more nav</a></li>
-						<li><a href="">Another nav item</a></li>
+						<li><a href="">Jobs</a></li>
+						<li><a href="">Add Job</a></li>
+					</ul>
+					<ul class="nav nav-sidebar">
+						<li><a href="">Reports</a></li>
 					</ul>
 				</div>
 				<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 					<h1 class="page-header">Dashboard</h1>
-					<div class="row placeholders">
-						<div class="col-xs-6 col-sm-3 placeholder">
-							<img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-							<h4>Label</h4>
-							<span class="text-muted">Something else</span>
+					<div class="row">
+						<div class="col-md-4">
+							<h2>Todays Jobs </h2>
+							<table class="table table-striped">
+								<thead>
+									<tr>
+										<th>Job ID</th>
+										<th>Company</th>
+										<th>Job Type</th>
+										<th>Location</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>1001</td>
+										<td>Lorem</td>
+										<td>Lorem</td>
+										<td>ipsum</td>
+									</tr>
+									<tr>
+										<td>1001</td>
+										<td>Lorem</td>
+										<td>Lorem</td>
+										<td>ipsum</td>
+									</tr>
+									<tr>
+										<td>1001</td>
+										<td>Lorem</td>
+										<td>Lorem</td>
+										<td>ipsum</td>
+									</tr>
+								</tbody>
+							</table>
 						</div>
-						<div class="col-xs-6 col-sm-3 placeholder">
-							<img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-							<h4>Label</h4>
-							<span class="text-muted">Something else</span>
+						<div class="col-md-4">
+							<h2>Tomorrows Jobs</h2>
+							<table class="table table-striped">
+								<thead>
+									<tr>
+										<th>Job ID</th>
+										<th>Company</th>
+										<th>Job Type</th>
+										<th>Location</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>1011</td>
+										<td>Lorem</td>
+										<td>Lorem</td>
+										<td>ipsum</td>
+									</tr>
+									<tr>
+										<td>1011</td>
+										<td>Lorem</td>
+										<td>Lorem</td>
+										<td>ipsum</td>
+									</tr>
+									<tr>
+										<td>1011</td>
+										<td>Lorem</td>
+										<td>Lorem</td>
+										<td>ipsum</td>
+									</tr>
+								</tbody>
+							</table>
 						</div>
-						<div class="col-xs-6 col-sm-3 placeholder">
-							<img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-							<h4>Label</h4>
-							<span class="text-muted">Something else</span>
-						</div>
-						<div class="col-xs-6 col-sm-3 placeholder">
-							<img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-							<h4>Label</h4>
-							<span class="text-muted">Something else</span>
+						<div class="col-md-4">
+							<h2>Overdue</h2>
+							<table class="table table-striped">
+								<thead>
+									<tr>
+										<th>Job ID</th>
+										<th>Company</th>
+										<th>Job Type</th>
+										<th>Location</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>1021</td>
+										<td>Lorem</td>
+										<td>Lorem</td>
+										<td>ipsum</td>
+									</tr>
+								</tbody>
+							</table>
 						</div>
 					</div>
-					<h2 class="sub-header">Section title</h2>
+					<h2 class="sub-header">Inventory View</h2>
 					<div class="table-responsive">
 						<table class="table table-striped">
 							<thead>
 								<tr>
-									<th>#</th>
-									<th>Header</th>
-									<th>Header</th>
-									<th>Header</th>
-									<th>Header</th>
+									<th>Part Number</th>
+									<th>Name</th>
+									<th>Quantity</th>
+									<th></th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr>
-									<td>1,001</td>
+									<td>1001</td>
 									<td>Lorem</td>
-									<td>ipsum</td>
-									<td>dolor</td>
-									<td>sit</td>
+									<td>10</td>
+									<td><button class="btn btn-primary">edit</button></td>
 								</tr>
 								<tr>
-									<td>1,002</td>
+									<td>1002</td>
 									<td>amet</td>
-									<td>consectetur</td>
-									<td>adipiscing</td>
-									<td>elit</td>
+									<td>11</td>
+									<td><button class="btn btn-primary">edit</button></td>
 								</tr>
 								<tr>
-									<td>1,003</td>
+									<td>1003</td>
 									<td>Integer</td>
-									<td>nec</td>
-									<td>odio</td>
-									<td>Praesent</td>
+									<td>2</td>
+									<td><button class="btn btn-primary">edit</button></td>
 								</tr>
 								<tr>
-									<td>1,003</td>
+									<td>1003</td>
 									<td>libero</td>
-									<td>Sed</td>
-									<td>cursus</td>
-									<td>ante</td>
+									<td>10</td>
+									<td><button class="btn btn-primary">edit</button></td>
 								</tr>
 								<tr>
-									<td>1,004</td>
+									<td>1004</td>
 									<td>dapibus</td>
-									<td>diam</td>
-									<td>Sed</td>
-									<td>nisi</td>
+									<td>1</td>
+									<td><button class="btn btn-primary">edit</button></td>
 								</tr>
 								<tr>
-									<td>1,005</td>
+									<td>1005</td>
 									<td>Nulla</td>
-									<td>quis</td>
-									<td>sem</td>
-									<td>at</td>
+									<td>5</td>
+									<td><button class="btn btn-primary">edit</button></td>
 								</tr>
 								<tr>
-									<td>1,006</td>
+									<td>1006</td>
 									<td>nibh</td>
-									<td>elementum</td>
-									<td>imperdiet</td>
-									<td>Duis</td>
+									<td>30</td>
+									<td><button class="btn btn-primary">edit</button></td>
 								</tr>
 								<tr>
-									<td>1,007</td>
+									<td>1007</td>
 									<td>sagittis</td>
-									<td>ipsum</td>
-									<td>Praesent</td>
-									<td>mauris</td>
+									<td>30</td>
+									<td><button class="btn btn-primary">edit</button></td>
 								</tr>
 								<tr>
-									<td>1,008</td>
+									<td>1008</td>
 									<td>Fusce</td>
-									<td>nec</td>
-									<td>tellus</td>
-									<td>sed</td>
+									<td>30</td>
+									<td><button class="btn btn-primary">edit</button></td>
 								</tr>
 								<tr>
-									<td>1,009</td>
+									<td>1009</td>
 									<td>augue</td>
-									<td>semper</td>
-									<td>porta</td>
-									<td>Mauris</td>
+									<td>30</td>
+									<td><button class="btn btn-primary">edit</button></td>
 								</tr>
 								<tr>
-									<td>1,010</td>
+									<td>1010</td>
 									<td>massa</td>
-									<td>Vestibulum</td>
-									<td>lacinia</td>
-									<td>arcu</td>
+									<td>30</td>
+									<td><button class="btn btn-primary">edit</button></td>
 								</tr>
 								<tr>
-									<td>1,011</td>
+									<td>1011</td>
 									<td>eget</td>
-									<td>nulla</td>
-									<td>Class</td>
-									<td>aptent</td>
+									<td>30</td>
+									<td><button class="btn btn-primary">edit</button></td>
 								</tr>
 								<tr>
-									<td>1,012</td>
+									<td>1012</td>
 									<td>taciti</td>
-									<td>sociosqu</td>
-									<td>ad</td>
-									<td>litora</td>
+									<td>30</td>
+									<td><button class="btn btn-primary">edit</button></td>
 								</tr>
 								<tr>
-									<td>1,013</td>
+									<td>1013</td>
 									<td>torquent</td>
-									<td>per</td>
-									<td>conubia</td>
-									<td>nostra</td>
+									<td>30</td>
+									<td><button class="btn btn-primary">edit</button></td>
 								</tr>
 								<tr>
-									<td>1,014</td>
+									<td>1014</td>
 									<td>per</td>
-									<td>inceptos</td>
-									<td>himenaeos</td>
-									<td>Curabitur</td>
+									<td>30</td>
+									<td><button class="btn btn-primary">edit</button></td>
 								</tr>
 								<tr>
-									<td>1,015</td>
+									<td>1015</td>
 									<td>sodales</td>
-									<td>ligula</td>
-									<td>in</td>
-									<td>libero</td>
+									<td>30</td>
+									<td><button class="btn btn-primary">edit</button></td>
 								</tr>
 							</tbody>
 						</table>
