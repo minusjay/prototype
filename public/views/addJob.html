@@ -1,0 +1,83 @@
+<!-- data
+	jobId:10103, 
+	companyId:1000, 
+	type:'Repair', 
+	startDate:'11/30/2016', 
+	endDate:'11/30/2016', 
+	startTime:'2:00 PM', 
+	description:'This is a fix to old company', 
+	instructions:'This should be repair job', 
+	parts: [
+		{partNumber:'AE0098123HG', qty: 11 },
+		{partNumber:'BE0098144HG',qty: 7 } 
+	],
+	techAssignedId:1001,
+	jobCompleteDate:'',
+	totalTime:0,
+	notes:'',
+	managerNotes:'' 
+ -->
+
+<div ng-controller="addJobCtrl">
+	<h1>Add New Job</h1>
+
+	<form action="/addJob" method="POST" role="form">
+ 	
+		<div class="form-group">
+			<label for="">Select Company</label>
+			<select name="company_select" id="Company_select" class="form-control" ng-change="existingCompany()" ng-model="selectComp" ng-options="company.companyName for company in companies track by company.companyId">
+				<option value="">Exsisting Company</option>
+			</select>
+		</div>
+
+		<div class="company well" ng-show="companyShow">
+			<div class="form-group">
+				<input type="hidden" name="companyID" ng-model="company._id">
+				<input type="text" name="companyName" id="inputCompanyName" class="form-control" placeholder="Company Name" ng-model="company.companyName">
+			</div>
+			<div class="form-group">
+				<input type="text" name="companyContact" id="inputCompanyContact" class="form-control" placeholder="Company Contact" ng-model="company.contactName">
+			</div>
+			<div class="form-group">
+				<input type="text" name="companyAddress" id="inputCompanyAddress" class="form-control" placeholder="Company Address" ng-model="company.address">
+			</div>
+			<div class="form-group">
+				<input type="text" name="companyCity" id="inputCompanyCity" class="form-control" placeholder="Company City" ng-model="company.city">
+			</div>
+			<div class="form-group">
+				<input type="text" name="companyState" id="inputCompanyState" class="form-control" placeholder="Company State" ng-model="company.state">
+			</div>
+			<div class="form-group">
+				<input type="text" name="companyZip" id="inputCompanyZip" class="form-control" placeholder="Company Zip" ng-model="company.zip">
+			</div>
+			<div class="form-group">
+				<input type="text" name="companyPhone" id="inputCompanyPhone" class="form-control" placeholder="Company Phone" ng-model="company.phone">
+			</div>
+		</div>
+		
+		<div class="form-group"><input type="text" class="form-control" name="jobType" id="jobType" placeholder="Job Type"></div>
+		<div class="form-group"><input type="text" class="form-control" name="startDate" id="startDate" placeholder="Start Date"></div>
+		<div class="form-group"><input type="text" class="form-control" name="startTime" id="startTime" placeholder="Start Time"></div>
+		<div class="form-group"><input type="text" class="form-control" name="endDate" id="endDate" placeholder="End Date"></div>
+		<div class="form-group">
+			Job Description
+			<textarea name="description" id="description" cols="30" rows="10" class="form-control"></textarea>
+		</div>
+		<div class="form-group">
+			Job Special Instructions
+			<textarea name="instructions" id="instructions" cols="30" rows="10" class="form-control"></textarea>
+		</div>
+
+		<div class="parts">
+			<div class="checkbox" ng-repeat="item in inventory"><label><input type="checkbox">{{item.partNumber}}:{{item.name}}</input> <input type="text" name="qty_{{item.partNumber}}" placeholder="QTY"></label></div>
+		</div>
+		
+		<div class="form-group">
+			<select name="selectTech" id="inputSelectTech" class="form-control" ng-model="selectTech" ng-options="tech.fname +' '+ tech.lname for tech in technicians track by tech._id">
+				<option value="">Select Technician</option>
+			</select>
+		</div>
+
+		<button type="submit" class="btn btn-primary">Submit</button>
+	</form>
+</div>

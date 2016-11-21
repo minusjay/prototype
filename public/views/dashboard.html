@@ -1,0 +1,75 @@
+<div ng-controller="dashboardCtrl">
+	<div class="row">
+		<div class="col-md-12">
+			<h2>Active Jobs </h2>
+
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Company</th>
+						<th>Job Type</th>
+						<th>Start Date</th>
+						<th>Location</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="job in jobs | orderBy : ['startDate','-startTime']">
+						<td>{{job.companyDetails[0].companyName}}</td>
+						<td>{{job.type}}</td>
+						<td>{{job.startDate}} {{job.startTime}}</td>
+						<td>{{job.companyDetails[0].city}}, {{job.companyDetails[0].state}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+	</div>
+	
+	<div class="row">
+		<div class="col-md-6">
+			<h2>Tech Location</h2>
+			<div class="table-responsive">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Tech</th>
+							<th>Active Job</th>
+							<th>Location</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="tech in techs" ng-class="tech.location == ''? 'danger':''">
+							<td>{{tech.techName}}</td>
+							<td>{{tech.comanyName}}</td>
+							<td>{{tech.location}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<h2>Inventory View</h2>
+			<div class="table-responsive">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Part Number</th>
+							<th>Name</th>
+							<th>Quantity</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="part in inventory" ng-class="part.quantity <= part.lowQuantity ? 'danger' : ''">
+							<td>{{part.partNumber}}</td>
+							<td>{{part.name}}</td>
+							<td>{{part.quantity}}</td>
+							<td><button class="btn btn-primary">edit</button></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>	
+		</div>
+		
+	</div>
+</div>

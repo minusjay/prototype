@@ -1,0 +1,55 @@
+<div ng-controller="inventoryCtrl">
+	<h2>Inventory View</h2>
+	<div class="row">
+		<div class="col-sm-12">
+			<form role="form" class="form-inline">
+				<legend>Add New Part</legend>
+
+				<div class="form-group">
+					<input type="text" class="form-control" id="part_name" placeholder="Part Name" ng-model="part.name">
+				</div>
+				
+				<div class="form-group">
+					<input type="text" class="form-control" id="part_number" placeholder="Part Number" ng-model="part.partNumber">
+				</div>
+				<div class="form-group">
+					<input type="text" class="form-control" id="part_description" placeholder="Part Description" ng-model="part.description">
+				</div>
+				
+				<div class="form-group">
+					<input type="number" class="form-control" id="part_quantity" placeholder="Quantity" ng-model="part.quantity">
+				</div>
+				<div class="form-group">
+					<input type="number" class="form-control" id="part_low_quantity" placeholder="Low Quantity" ng-model="part.lowQuantity">
+				</div>
+
+				<button type="submit" class="btn btn-primary" ng-click="addPart()">Add Part</button>
+			</form>
+		</div>
+	</div>
+	<hr>
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="table-responsive">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Part Number</th>
+							<th>Name</th>
+							<th>Quantity</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="part in inventory" ng-class="part.quantity <= part.lowQuantity ? 'danger' : ''">
+							<td>{{part.partNumber}}</td>
+							<td>{{part.name}}</td>
+							<td>{{part.quantity}}</td>
+							<td><button class="btn btn-primary">edit</button></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>	
+		</div>
+	</div>
+</div>

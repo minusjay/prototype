@@ -1,0 +1,20 @@
+<div class="jobs" ng-controller="jobsCtrl">
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Company</th>
+				<th>Job Type</th>
+				<th>Start Date</th>
+				<th>Location</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="job in jobs | orderBy : ['startDate','-startTime']">
+				<td>{{job.companyDetails[0].companyName}}</td>
+				<td>{{job.type}}</td>
+				<td>{{job.startDate}} {{job.startTime}}</td>
+				<td>{{job.companyDetails[0].city}}, {{job.companyDetails[0].state}}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

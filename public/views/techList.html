@@ -1,0 +1,5 @@
+<!-- list of today jobs -->
+<div ng-controller="shopTechCtrl">
+	<div class="list-group" >
+		<a ng-repeat="job in jobs" href="#/techJob?ID={{job.id}}" class="list-group-item">Job {{$index +1}}: {{job.company}}<br>Type: {{job.type}}</a>
+	</div>
