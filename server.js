@@ -31,7 +31,12 @@ app.get('/inventory',function (req,res) {
 		res.json(doc);
 	});
 });
-app.post('/inventory')
+app.post('/inventory',function (req,res) {
+	console.log(req.body);
+	db.inventory.insert(req.body,function (err,doc) {
+		res.json(doc);
+	});
+});
 
 app.get('/techJobs',function (req,res) {
 	db.techActiveJob.find(function(err,doc){

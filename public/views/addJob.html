@@ -21,7 +21,7 @@
 <div ng-controller="addJobCtrl">
 	<h1>Add New Job</h1>
 
-	<form action="/addJob" method="POST" role="form">
+	<form role="form">
  	
 		<div class="form-group">
 			<label for="">Select Company</label>
@@ -78,6 +78,6 @@
 			</select>
 		</div>
 
-		<button type="submit" class="btn btn-primary">Submit</button>
+		<button type="submit" class="btn btn-primary" ng-click="addJob()">Submit</button>
 	</form>
 </div>

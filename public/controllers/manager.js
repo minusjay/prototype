@@ -52,17 +52,18 @@ function DashboardCtrl($scope,$http) {
 }
 
 function InventoryCtrl($scope, $http) {
-	var clearPartForm = function () {
+	var refresh = function () {
 		$scope.part = "";
+		$http.get('/inventory').success(function (response) {
+			$scope.inventory = response;
+		});
 	}
+	refresh();
 
-	$http.get('/inventory').success(function (response) {
-		$scope.inventory = response;
-	});
 	$scope.addPart = function () {
 		$http.post('/inventory',$scope.part).success(function (response) {
 			console.log(response);
-			$scope.part = "";
+			refresh();
 		});
 	}
 }
@@ -97,6 +98,17 @@ function AddJobCtrl($scope,$http) {
 			$scope.companyShow = false;
 		});
 	};
+	$scope.addJob = function () {
+		$scope.newJob = {
+			jobId : '1111',
+			companyId : $scope.selectComp.companyId
+		};
+		console.log($scope.newJob);
+		
+		// $http.post('/activeJobs',$scope.newJob).success(function (response) {
+		// 	//redirect
+		// })
+	}
 }
 
 function JobDetailCtrl($scope) {
