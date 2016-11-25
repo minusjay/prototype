@@ -1,16 +1,15 @@
 angular.module('airField',['ngRoute'])
+	.controller('coreCtrl',CoreCtrl)
 	.controller('dashboardCtrl', DashboardCtrl)
 	.controller('inventoryCtrl', InventoryCtrl)
-	.controller('newItemCtrl', NewItemCtrl)
 	.controller('jobsCtrl', JobsCtrl)
 	.controller('addJobCtrl', AddJobCtrl)
 	.controller('jobDetailCtrl', JobDetailCtrl)
+	.factory('currentSpot',currentSpot)
+	.directive('ywActiveMenu',ywActiveMenu)
 	.config(function($routeProvider){
 		$routeProvider.when('/inventory',{
 			templateUrl:'views/inventory.html'
-		});
-		$routeProvider.when('/newItem',{
-			templateUrl:'views/newItem.html'
 		});
 		$routeProvider.when('/jobs',{
 			templateUrl:'views/jobs.html'
@@ -26,13 +25,28 @@ angular.module('airField',['ngRoute'])
 		});
 	});
 
-
-
 //controllers
-function DashboardCtrl($scope,$http) {
-	// $scope.jobs = jobsData;
-	// $scope.parts = inventoryData;
-	// $scope.techs = techData;
+function CoreCtrl($scope,currentSpot) {
+	console.log('coreCtrl');
+
+	$scope.isActive = isActive;
+	$scope.getTitle = getTitle;
+	// $scope.getActiveMenu = getActiveMenu;
+
+	function isActive(menuId) {
+		return currentSpot.getActiveMenu() == menuId;
+	}
+
+	function getTitle() {
+		return currentSpot.getTitle();
+	}
+
+	function getActiveMenu() {
+		return currentSpot.getActiveMenu();
+	}
+}
+
+function DashboardCtrl($scope,$http, currentSpot) {
 
 	$http.get('/activejobs').success(function (response) {
 		$scope.jobs = response;
@@ -51,7 +65,8 @@ function DashboardCtrl($scope,$http) {
    $scope.before = now > $scope.date.getTime();
 }
 
-function InventoryCtrl($scope, $http) {
+function InventoryCtrl($scope, $http, currentSpot) {
+	currentSpot.setCurrentSpot('Inventory')
 	var refresh = function () {
 		$scope.part = "";
 		$http.get('/inventory').success(function (response) {
@@ -66,10 +81,6 @@ function InventoryCtrl($scope, $http) {
 			refresh();
 		});
 	}
-}
-
-function NewItemCtrl($scope) {
-
 }
 
 function JobsCtrl($scope,$http) {
@@ -115,3 +126,56 @@ function JobDetailCtrl($scope) {
 
 }
 
+//factory
+function currentSpot() {
+	var activeMenuId = '',
+		titleText = '';
+
+	return {
+		setCurrentSpot: function (menuId,title) {
+			activeMenuId = menuId;
+			titleText = title;
+		},
+		getActiveMenu: function () {
+			return activeMenuId;
+		},
+		getTitle: function () {
+			return titleText;
+		}
+	}
+}
+
+//directives
+function ywActiveMenu(currentSpot) {
+  return function (scope, element, attrs) {
+    var activeMenuId = attrs["ywActiveMenu"];
+    var activeTitle = attrs["ywActiveTitle"];
+    currentSpot.setCurrentSpot(activeMenuId, activeTitle);
+  }
+}
+function ywMenuId(currentSpot) {
+	var menuElements = [];
+
+	function setActive(element, menuId) {
+		if (currentSpot.getActiveMenu() == menuId) {
+		  element.addClass('active');
+		} else {
+		  element.removeClass('active');
+		}
+	}
+
+	return function (scope, element, attrs) {
+	    var menuId = attrs["ywMenuId"];
+	    menuElements.push({ id: menuId, node: element });
+	    setActive(element, menuId);
+	    var watcherFn = function (watchScope) {
+	      return watchScope.$eval('getActiveMenu()');
+	    }
+	    scope.$watch(watcherFn, function (newValue, oldValue) {
+	      for (var i = 0; i < menuElements.length; i++) {
+	        var menuElement = menuElements[i];
+	        setActive(menuElement.node, menuElement.id);
+	      }
+	    });
+	}
+}
