@@ -18,14 +18,17 @@
 	managerNotes:'' 
  -->
 
-<div ng-controller="addJobCtrl">
+<div 
+	yw-active-menu="AddJob"
+	yw-active-title="Add a new Job"
+	ng-controller="addJobCtrl">
 	<h1>Add New Job</h1>
 
 	<form role="form">
  	
 		<div class="form-group">
 			<label for="">Select Company</label>
-			<select name="company_select" id="Company_select" class="form-control" ng-change="existingCompany()" ng-model="selectComp" ng-options="company.companyName for company in companies track by company.companyId">
+			<select name="company_select" id="Company_select" class="form-control" ng-change="existingCompany()" ng-model="newJob.comapnyId" ng-options="company.companyName for company in companies track by company.companyId">
 				<option value="">Exsisting Company</option>
 			</select>
 		</div>
@@ -55,25 +58,25 @@
 			</div>
 		</div>
 		
-		<div class="form-group"><input type="text" class="form-control" name="jobType" id="jobType" placeholder="Job Type"></div>
-		<div class="form-group"><input type="text" class="form-control" name="startDate" id="startDate" placeholder="Start Date"></div>
-		<div class="form-group"><input type="text" class="form-control" name="startTime" id="startTime" placeholder="Start Time"></div>
-		<div class="form-group"><input type="text" class="form-control" name="endDate" id="endDate" placeholder="End Date"></div>
+		<div class="form-group"><input type="text" class="form-control" name="jobType" id="jobType" ng-model="newJob.type" placeholder="Job Type"></div>
+		<div class="form-group"><input type="text" class="form-control" name="startDate" id="startDate" ng-model="newJob.startDate" placeholder="Start Date"></div>
+		<div class="form-group"><input type="text" class="form-control" name="startTime" id="startTime" ng-model="newJob.startTime" placeholder="Start Time"></div>
+		<div class="form-group"><input type="text" class="form-control" name="endDate" id="endDate" ng-model="newJob.endDate" placeholder="End Date"></div>
 		<div class="form-group">
 			Job Description
-			<textarea name="description" id="description" cols="30" rows="10" class="form-control"></textarea>
+			<textarea name="description" id="description" cols="30" rows="10" class="form-control" ng-model="newJob.description"></textarea>
 		</div>
 		<div class="form-group">
 			Job Special Instructions
-			<textarea name="instructions" id="instructions" cols="30" rows="10" class="form-control"></textarea>
+			<textarea name="instructions" id="instructions" cols="30" rows="10" class="form-control" ng-model="newJob.instructions"></textarea>
 		</div>
 
 		<div class="parts">
-			<div class="checkbox" ng-repeat="item in inventory"><label><input type="checkbox">{{item.partNumber}}:{{item.name}}</input> <input type="text" name="qty_{{item.partNumber}}" placeholder="QTY"></label></div>
+			<div class="checkbox" ng-repeat="item in inventory"><label><input type="checkbox" ng-model="newJob.parts.partNumber">{{item.partNumber}}:{{item.name}}</input> <input type="text" name="qty_{{item.partNumber}}" ng-model="newJob.parts.qty" placeholder="QTY"></label></div>
 		</div>
 		
 		<div class="form-group">
-			<select name="selectTech" id="inputSelectTech" class="form-control" ng-model="selectTech" ng-options="tech.fname +' '+ tech.lname for tech in technicians track by tech._id">
+			<select name="selectTech" id="inputSelectTech" class="form-control" ng-model="newJob.techAssignedId" ng-options="tech.fname +' '+ tech.lname for tech in technicians track by tech._id">
 				<option value="">Select Technician</option>
 			</select>
 		</div>

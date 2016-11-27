@@ -7,6 +7,7 @@ angular.module('airField',['ngRoute'])
 	.controller('jobDetailCtrl', JobDetailCtrl)
 	.factory('currentSpot',currentSpot)
 	.directive('ywActiveMenu',ywActiveMenu)
+	.directive('ywMenuId',ywMenuId)
 	.config(function($routeProvider){
 		$routeProvider.when('/inventory',{
 			templateUrl:'views/inventory.html'
@@ -27,7 +28,6 @@ angular.module('airField',['ngRoute'])
 
 //controllers
 function CoreCtrl($scope,currentSpot) {
-	console.log('coreCtrl');
 
 	$scope.isActive = isActive;
 	$scope.getTitle = getTitle;
@@ -103,17 +103,22 @@ function AddJobCtrl($scope,$http) {
 
 	$scope.existingCompany = function () {
 		// console.log($scope.selectComp.companyId);
-		$http.get('/companies/'+$scope.selectComp._id).success(function (response) {
+		$scope.newJob;
+		console.log($scope.newJob);
+		var company = $scope.newJob.companyId;
+		console.log($scope.newJob.companyId);
+		$http.get('/companies/'+$scope.newJob.companyId._id).success(function (response) {
 			$scope.company = response;
 			console.log(response);
 			$scope.companyShow = false;
 		});
 	};
 	$scope.addJob = function () {
-		$scope.newJob = {
-			jobId : '1111',
-			companyId : $scope.selectComp.companyId
-		};
+		// $scope.newJob = {
+		// 	jobId : '1111',
+		// 	companyId : $scope.selectComp.companyId,
+		// 	type: $scope.
+		// };
 		console.log($scope.newJob);
 		
 		// $http.post('/activeJobs',$scope.newJob).success(function (response) {
@@ -123,7 +128,6 @@ function AddJobCtrl($scope,$http) {
 }
 
 function JobDetailCtrl($scope) {
-
 }
 
 //factory
@@ -167,7 +171,7 @@ function ywMenuId(currentSpot) {
 	return function (scope, element, attrs) {
 	    var menuId = attrs["ywMenuId"];
 	    menuElements.push({ id: menuId, node: element });
-	    setActive(element, menuId);
+	    // setActive(element, menuId);
 	    var watcherFn = function (watchScope) {
 	      return watchScope.$eval('getActiveMenu()');
 	    }

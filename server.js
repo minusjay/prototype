@@ -1,7 +1,7 @@
 var express = require('express'),
 	app = express(),
 	mongojs = require('mongojs'),
-	db = mongojs('airFieldb',['technician','truck','inventory','companies','jobs']),
+	db = mongojs('airFieldb',['technician','truck','inventory','companies','jobs','techActiveJob']),
 	bodyParser = require('body-parser');
 
 app.use(express.static(__dirname + "/public"));
@@ -39,6 +39,7 @@ app.post('/inventory',function (req,res) {
 });
 
 app.get('/techJobs',function (req,res) {
+	console.log('techJobs');
 	db.techActiveJob.find(function(err,doc){
 		res.json(doc);
 	});
