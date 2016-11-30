@@ -101,29 +101,42 @@ function AddJobCtrl($scope,$http) {
 		$scope.technicians = response;
 	});
 
+	$scope.newJob;
 	$scope.existingCompany = function () {
-		// console.log($scope.selectComp.companyId);
-		$scope.newJob;
-		console.log($scope.newJob);
-		var company = $scope.newJob.companyId;
-		console.log($scope.newJob.companyId);
 		$http.get('/companies/'+$scope.newJob.companyId._id).success(function (response) {
 			$scope.company = response;
-			console.log(response);
 			$scope.companyShow = false;
 		});
 	};
 	$scope.addJob = function () {
-		// $scope.newJob = {
-		// 	jobId : '1111',
-		// 	companyId : $scope.selectComp.companyId,
-		// 	type: $scope.
-		// };
-		console.log($scope.newJob);
+		var _parts = [];
+		angular.forEach($scope.newJob.part, function(value, key) {
+		  var x = {'partNumber':key,'qty':value}
+		  this.push(x);
+		}, _parts);
 		
-		// $http.post('/activeJobs',$scope.newJob).success(function (response) {
-		// 	//redirect
-		// })
+		var job = $scope.newJob,
+			techN = $scope.newJob.techAssignedId.techNumber,
+			compId = $scope.newJob.companyId.companyId,
+			insertJob = {
+				companyId:compId,
+				type:job.type,
+				startDate:job.startDate,
+				endDate:job.endDate,
+				description:job.description,
+				instructions:job.instructions,
+				techAssignedId:techN,
+				parts:_parts
+			};
+		
+		
+		$http.post('/activeJobs',insertJob).success(function (response) {
+			console.log(response);
+			$scope.newJob = "";
+		});
+
+		//if tech added to job
+
 	}
 }
 

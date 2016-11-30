@@ -64,6 +64,7 @@ db.techActiveJob.insert({
 
 //------------------
 db.technician.insert({techNumber: 1001, fname:'Tech', lname:'Lastname', title:'Lead tech', truck:1 })
+db.technician.insert({techNumber: 1002, fname:'John', lname:'Smith', title:'Lead tech', truck:2 })
 db.truck.insert({truckId:1, truckInventory :[{ partNumber:'AE0098123HG', qty: 11 }, { partNumber:'BE0098144HG',qty: 7 } ] }) 
 db.inventory.insert({partNumber:'AE0098123HG', name:'3/4 Fitting', description:'Small shinny ring', quantity:14, lowQuantity:7 })
 db.companies.insert({companyId:1000, companyName:'Some Company', contactName:'John Smith', address:'1335 Market St', city:'Some City', state:'NJ', zip:'08245', phone:'609-987-2345'})

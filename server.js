@@ -25,6 +25,11 @@ app.get('/activejobs',function (req,res) {
 		}
 	);
 });
+app.post('/activejobs',function (req,res) {
+	db.jobs.insert(req.body,function (err,doc) {
+		res.json(doc);
+	});
+});
 
 app.get('/inventory',function (req,res) {
 	db.inventory.find(function (err,doc) {

@@ -16,6 +16,29 @@
 	totalTime:0,
 	notes:'',
 	managerNotes:'' 
+
+
+	companyId: 
+		_id : "581f9b9c7ab1209b3d6064cb"
+		address : "1335 Market St"
+		city : "Some City"
+		companyId : 1000
+		companyName : "Some Company"
+		contactName : "John Smith"
+		phone : "609-987-2345"
+		state : "NJ"
+		zip : "08245"
+	description: "asd"
+	endDate: "asd"
+	instructions: "asd"
+	part: Object
+		AE0098123HG: "2"
+		FE09821123HG: "7"
+		__proto__: Object
+	startDate: "asd"
+	startTime: "asd"
+	type: "adsf"
+	__proto__: Object
  -->
 
 <div 
@@ -28,7 +51,7 @@
  	
 		<div class="form-group">
 			<label for="">Select Company</label>
-			<select name="company_select" id="Company_select" class="form-control" ng-change="existingCompany()" ng-model="newJob.comapnyId" ng-options="company.companyName for company in companies track by company.companyId">
+			<select name="company_select" id="Company_select" class="form-control" ng-change="existingCompany()" ng-model="newJob.companyId" ng-options="company.companyName for company in companies track by company.companyId">
 				<option value="">Exsisting Company</option>
 			</select>
 		</div>
@@ -71,12 +94,28 @@
 			<textarea name="instructions" id="instructions" cols="30" rows="10" class="form-control" ng-model="newJob.instructions"></textarea>
 		</div>
 
-		<div class="parts">
-			<div class="checkbox" ng-repeat="item in inventory"><label><input type="checkbox" ng-model="newJob.parts.partNumber">{{item.partNumber}}:{{item.name}}</input> <input type="text" name="qty_{{item.partNumber}}" ng-model="newJob.parts.qty" placeholder="QTY"></label></div>
+		<div class="form-group row" ng-repeat="item in inventory">
+			<div class="col-xs-5">
+				{{item.partNumber}}:{{item.name}}
+			</div>
+			<div class="col-xs-2">
+				<select name="company_select" id="Company_select" class="form-control"  ng-model="newJob.part[item.partNumber]" >
+					<option value="">QTY</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+					<option value="6">6</option>
+					<option value="7">7</option>
+					<option value="8">8</option>
+					<option value="10">10</option>
+				</select>
+			</div>
 		</div>
 		
 		<div class="form-group">
-			<select name="selectTech" id="inputSelectTech" class="form-control" ng-model="newJob.techAssignedId" ng-options="tech.fname +' '+ tech.lname for tech in technicians track by tech._id">
+			<select name="selectTech" id="inputSelectTech" class="form-control" ng-model="newJob.techAssignedId" ng-options="tech.fname +' '+ tech.lname for tech in technicians track by tech.techNumber">
 				<option value="">Select Technician</option>
 			</select>
 		</div>
