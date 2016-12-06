@@ -51,18 +51,54 @@ function DashboardCtrl($scope,$http, currentSpot) {
 	$http.get('/activejobs').success(function (response) {
 		$scope.jobs = response;
 	});
-	$http.get('/inventory').success(function (response) {
-		$scope.inventory = response;
-	});
+	
 	$http.get('/techJobs').success(function (response) {
 		$scope.techs = response;
 	});
 
 	var now = new Date().getTime();
 
-   $scope.date = new Date(2015, 10, 10);
-   $scope.ago = now < $scope.date.getTime();
-   $scope.before = now > $scope.date.getTime();
+	$scope.date = new Date(2015, 10, 10);
+	$scope.ago = now < $scope.date.getTime();
+	$scope.before = now > $scope.date.getTime();
+	var refreshInventory = function () {
+		$http.get('/inventory').success(function (response) {
+			$scope.inventory = response;
+		});
+	};
+	refreshInventory();
+
+   $scope.editInv = function (id) {
+   	
+   	$scope.inv = "";
+   	$http.get('/inventory/'+id).success(function (response) {
+		$scope.inv = response;
+		$scope.editInventory = true;
+	});
+   };
+   
+   $scope.cancelInv = function () {
+   	$scope.inv = "";
+   	$scope.editInventory = false;
+   };
+
+   $scope.updateInv = function () {
+   	$http.put('/inventory/'+$scope.inv._id,$scope.inv).success(function (response) {
+   		refreshInventory();
+   		$scope.inv = "";
+   		$scope.editInventory = false;
+   	});
+   };
+
+   $scope.viewJob = function (id) {
+   	console.log(id);
+   	$http.get('/activeJobs/'+id).success(function (response) {
+   		$scope.selectedJob = response[0];
+   		console.log(response[0]);
+   	});
+   	
+   	
+   };
 }
 
 function InventoryCtrl($scope, $http, currentSpot) {
@@ -77,7 +113,7 @@ function InventoryCtrl($scope, $http, currentSpot) {
 
 	$scope.addPart = function () {
 		$http.post('/inventory',$scope.part).success(function (response) {
-			console.log(response);
+			
 			refresh();
 		});
 	}
@@ -131,7 +167,7 @@ function AddJobCtrl($scope,$http) {
 		
 		
 		$http.post('/activeJobs',insertJob).success(function (response) {
-			console.log(response);
+			
 			$scope.newJob = "";
 		});
 

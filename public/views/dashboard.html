@@ -1,4 +1,4 @@
-<div 
+<div class="dashboard"
 	yw-active-menu="Dashboard"
     yw-active-title="Manage Dashboard"
 	ng-controller="dashboardCtrl">
@@ -6,7 +6,7 @@
 		<div class="col-md-12">
 			<h2>Active Jobs </h2>
 
-			<table class="table table-striped">
+			<table class="table table-hover active-jobs">
 				<thead>
 					<tr>
 						<th>Company</th>
@@ -16,8 +16,8 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="job in jobs | orderBy : ['startDate','-startTime']">
-						<td>{{job.companyDetails[0].companyName}}</td>
+					<tr ng-repeat="job in jobs | orderBy : ['startDate','-startTime']" ng-click="viewJob(job._id)" data-toggle="modal" href='#jobModal'>
+						<td>{{job.jobId}} | {{job.companyDetails[0].companyName}}</td>
 						<td>{{job.type}}</td>
 						<td>{{job.startDate}} {{job.startTime}}</td>
 						<td>{{job.companyDetails[0].city}}, {{job.companyDetails[0].state}}</td>
@@ -29,7 +29,7 @@
 	</div>
 	
 	<div class="row">
-		<div class="col-md-6">
+		<div class="col-md-7">
 			<h2>Tech Location</h2>
 			<div class="table-responsive">
 				<table class="table table-striped">
@@ -50,7 +50,7 @@
 				</table>
 			</div>
 		</div>
-		<div class="col-md-6">
+		<div class="col-md-5">
 			<h2>Inventory View</h2>
 			<div class="table-responsive">
 				<table class="table table-striped">
@@ -60,19 +60,69 @@
 							<th>Name</th>
 							<th>Quantity</th>
 							<th></th>
+							<th></th>
 						</tr>
 					</thead>
 					<tbody>
+						<tr ng-show="editInventory">
+							<td><input type="text" class="form-control" ng-model="inv.partNumber"></td>
+							<td><input type="text" class="form-control" ng-model="inv.name"></td>
+							<td><input type="number" class="form-control" ng-model="inv.quantity"></td>
+							<td> <button class="btn btn-primary" ng-click="updateInv(inv._id)">save</button> </td>
+							<td><button class="btn btn-primary" ng-click="cancelInv()">cancel</button></td>
+						</tr>
 						<tr ng-repeat="part in inventory" ng-class="part.quantity <= part.lowQuantity ? 'danger' : ''">
 							<td>{{part.partNumber}}</td>
 							<td>{{part.name}}</td>
 							<td>{{part.quantity}}</td>
-							<td><button class="btn btn-primary">edit</button></td>
+							<td colspan="2"><button class="btn btn-primary" ng-click="editInv(part._id)">edit</button></td>
 						</tr>
 					</tbody>
 				</table>
 			</div>	
 		</div>
 		
+	</div>
+	<div class="modal fade" id="jobModal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title">{{selectedJob.companyDetails.companyName}} | {{selectedJob.type}}</h4>
+				</div>
+				<div class="modal-body">
+					<address>
+						<strong>Contact: {{selectedJob.companyDetails.contactName}}</strong><br>
+						{{selectedJob.companyDetails.address}}<br>
+						{{selectedJob.companyDetails.city}}, {{selectedJob.companyDetails.state}}, {{selectedJob.companyDetails.zip}}<br>
+						{{selectedJob.companyDetails.phone}}
+					</address>
+					<dl class="dl-horizontal">
+						<dt>Start</dt>
+						<dd>{{selectedJob.startDate}} {{selectedJob.startTime}}</dd>
+					
+						<dt>End</dt>
+						<dd>{{selectedJob.endDate}}</dd>
+					
+						<dt>Description</dt>
+						<dd>{{selectedJob.description}}</dd>
+					
+						<dt>Instructions</dt>
+						<dd>{{selectedJob.instructions}}</dd>
+					
+						<dt>Parts</dt>
+						<dd>
+							<p ng-repeat="part in selectedJob.parts">
+								{{part.partNumber}} - {{part.qty}}
+							</p>
+						</dd>
+					</dl>
+				</div>
+				<div class="modal-footer">
+					<a class="btn btn-default" href="jobs.html?id={{selectedJob._id}}" role="button">Edit</a>
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>

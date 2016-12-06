@@ -2,22 +2,89 @@
 	yw-active-menu="Jobs"
 	yw-active-title="All Jobs"
 	ng-controller="jobsCtrl">
-	<table class="table table-striped">
-		<thead>
-			<tr>
-				<th>Company</th>
-				<th>Job Type</th>
-				<th>Start Date</th>
-				<th>Location</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr ng-repeat="job in jobs | orderBy : ['startDate','-startTime']">
-				<td>{{job.companyDetails[0].companyName}}</td>
-				<td>{{job.type}}</td>
-				<td>{{job.startDate}} {{job.startTime}}</td>
-				<td>{{job.companyDetails[0].city}}, {{job.companyDetails[0].state}}</td>
-			</tr>
-		</tbody>
-	</table>
+	<div class="row edit-job">
+		<form >
+			<div class="col-sm-4">
+				<h2>Company</h2>
+				//load company
+			</div>
+			<div class="col-sm-4">
+				<h2>Details</h2>
+				<div class="form-group"><input type="text" class="form-control" name="jobType" id="jobType" ng-model="newJob.type" placeholder="Job Type"></div>
+				<div class="form-group"><input type="text" class="form-control" name="startDate" id="startDate" ng-model="newJob.startDate" placeholder="Start Date"></div>
+				<div class="form-group"><input type="text" class="form-control" name="startTime" id="startTime" ng-model="newJob.startTime" placeholder="Start Time"></div>
+				<div class="form-group"><input type="text" class="form-control" name="endDate" id="endDate" ng-model="newJob.endDate" placeholder="End Date"></div>
+				<div class="form-group">
+					Job Description
+					<textarea name="description" id="description" cols="30" rows="3" class="form-control" ng-model="newJob.description"></textarea>
+				</div>
+				<div class="form-group">
+					Job Special Instructions
+					<textarea name="instructions" id="instructions" cols="30" rows="3" class="form-control" ng-model="newJob.instructions"></textarea>
+				</div>
+
+				<div class="form-group row" ng-repeat="item in inventory">
+					<div class="col-xs-5">
+						{{item.partNumber}}:{{item.name}}
+					</div>
+					<div class="col-xs-2">
+						<select name="company_select" id="Company_select" class="form-control"  ng-model="newJob.part[item.partNumber]" >
+							<option value="">QTY</option>
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+							<option value="6">6</option>
+							<option value="7">7</option>
+							<option value="8">8</option>
+							<option value="10">10</option>
+						</select>
+					</div>
+				</div>
+
+				<div class="form-group">
+					Tech Notes
+					<textarea name="" id="" cols="30" rows="3" class="form-control" readonly="true">Tech notes</textarea>
+				</div>
+				<div class="form-group"><input type="text" class="form-control" name="completeDate" id="completeDate" ng-model="newJob.completeDate" ></div>
+				<div class="form-group"><input type="text" class="form-control" name="totalTime" id="totalTime" ng-model="newJob.totalTime" ></div>
+			</div>
+			<div class="col-sm-4">
+				<h2>Final</h2>
+				<div class="form-group">
+					<select name="selectTech" id="inputSelectTech" class="form-control" ng-model="newJob.techAssignedId" ng-options="tech.fname +' '+ tech.lname for tech in technicians track by tech.techNumber">
+						<option value="">Select Technician</option>
+					</select>
+				</div>
+				
+				<div class="form-group">
+					Manager Notes
+					<textarea name="managerNotes" id="managerNotes" cols="30" rows="3" class="form-control" ng-model="newJob.managerNotes"></textarea>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="row">
+		<div class="col-sm-12">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Company</th>
+						<th>Job Type</th>
+						<th>Start Date</th>
+						<th>Location</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="job in jobs | orderBy : ['startDate','-startTime']">
+						<td>{{job.companyDetails[0].companyName}}</td>
+						<td>{{job.type}}</td>
+						<td>{{job.startDate}} {{job.startTime}}</td>
+						<td>{{job.companyDetails[0].city}}, {{job.companyDetails[0].state}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
 </div>

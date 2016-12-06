@@ -101,3 +101,5 @@ db.jobs.aggregate([
 	],function(err,doc){
 		res.json(doc);
 	});
+
+db.jobs.aggregate([{$match : {_id: '5822849f7ab1209b3d6064ce' } }, {$lookup:{from:"companies", localField:"companyId", foreignField:"companyId", as: "companyDetails"} } ] )

@@ -64,6 +64,9 @@ body {
 .main .page-header {
   margin-top: 0;
 }
+.dashboard .active-jobs tbody tr {
+  cursor: pointer;
+}
 /*
  * Placeholder dashboard ideas
  */

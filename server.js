@@ -25,6 +25,26 @@ app.get('/activejobs',function (req,res) {
 		}
 	);
 });
+
+app.get('/activejobs/:id',function (req,res) {
+	var id = req.params.id;
+	
+	db.jobs.aggregate(
+		[
+			{$match : {_id:mongojs.ObjectId(id) } },
+			{$lookup:{
+					from:"companies",
+					localField:"companyId",
+					foreignField:"companyId",
+					as: "companyDetails"
+				}
+			},
+			{$unwind:'$companyDetails'}
+		], function (err,doc) {
+			res.json(doc);
+		}
+	);
+});
 app.post('/activejobs',function (req,res) {
 	db.jobs.insert(req.body,function (err,doc) {
 		res.json(doc);
@@ -36,15 +56,27 @@ app.get('/inventory',function (req,res) {
 		res.json(doc);
 	});
 });
+app.get('/inventory/:id',function (req,res) {
+	var id = req.params.id;
+	db.inventory.findOne({_id:mongojs.ObjectId(id)},function (err,doc) {
+		res.json(doc);
+	});
+});
 app.post('/inventory',function (req,res) {
-	console.log(req.body);
 	db.inventory.insert(req.body,function (err,doc) {
 		res.json(doc);
 	});
 });
+app.put('/inventory/:id',function (req,res) {
+	var id = req.params.id;
+	db.inventory.findAndModify({query:{_id:mongojs.ObjectId(id)},
+		update:{$set:{partNumber:req.body.partNumber, name:req.body.name, quantity:req.body.quantity}},
+		new:true}, function (err,doc) {
+			res.json(doc);
+		});
+});
 
 app.get('/techJobs',function (req,res) {
-	console.log('techJobs');
 	db.techActiveJob.find(function(err,doc){
 		res.json(doc);
 	});
