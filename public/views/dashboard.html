@@ -17,7 +17,7 @@
 				</thead>
 				<tbody>
 					<tr ng-repeat="job in jobs | orderBy : ['startDate','-startTime']" ng-click="viewJob(job._id)" data-toggle="modal" href='#jobModal'>
-						<td>{{job.jobId}} | {{job.companyDetails[0].companyName}}</td>
+						<td>{{job.companyDetails[0].companyName}}</td>
 						<td>{{job.type}}</td>
 						<td>{{job.startDate}} {{job.startTime}}</td>
 						<td>{{job.companyDetails[0].city}}, {{job.companyDetails[0].state}}</td>
@@ -119,8 +119,8 @@
 					</dl>
 				</div>
 				<div class="modal-footer">
-					<a class="btn btn-default" href="jobs.html?id={{selectedJob._id}}" role="button">Edit</a>
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<a class="btn btn-primary" href="#/jobs?id={{selectedJob._id}}" role="button" >Open</a>
 				</div>
 			</div>
 		</div>

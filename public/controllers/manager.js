@@ -1,4 +1,4 @@
-angular.module('airField',['ngRoute'])
+angular.module('airField',['ngRoute','ui.bootstrap'])
 	.controller('coreCtrl',CoreCtrl)
 	.controller('dashboardCtrl', DashboardCtrl)
 	.controller('inventoryCtrl', InventoryCtrl)
@@ -24,6 +24,13 @@ angular.module('airField',['ngRoute'])
 		$routeProvider.otherwise({
 			templateUrl:'views/dashboard.html'
 		});
+	})
+	.run(function ($rootScope, $uibModalStack) { 
+		$rootScope.$on('$routeChangeSuccess', function (newVal, oldVal) { 
+			if (oldVal !== newVal) { 
+				$uibModalStack.dismissAll(); 
+			} 
+		}); 
 	});
 
 //controllers
@@ -91,14 +98,13 @@ function DashboardCtrl($scope,$http, currentSpot) {
    };
 
    $scope.viewJob = function (id) {
-   	console.log(id);
-   	$http.get('/activeJobs/'+id).success(function (response) {
+   	$http.get('/activejobs/'+id).success(function (response) {
    		$scope.selectedJob = response[0];
-   		console.log(response[0]);
    	});
    	
    	
    };
+   
 }
 
 function InventoryCtrl($scope, $http, currentSpot) {
@@ -119,10 +125,51 @@ function InventoryCtrl($scope, $http, currentSpot) {
 	}
 }
 
-function JobsCtrl($scope,$http) {
+function JobsCtrl($scope,$http,$routeParams) {
+	$('body').removeClass('modal-open');
+	$('.modal-backdrop').remove();
+	
+	var job_id = $routeParams.id;
+	
+	$scope.selectedJob = '';
+	$scope.jobID = job_id;
+	
+	if(job_id){
+		$scope.selectedJob = getSelectedJob(job_id);
+	}
+
 	$http.get('/activejobs').success(function (response) {
 		$scope.jobs = response;
 	});
+
+	$http.get('/inventory').success(function (response) {
+		$scope.inventory = response;
+	});
+
+	$http.get('/technician').success(function (response) {
+		$scope.technicians = response;
+	});
+
+	$scope.viewJob = function (id) {
+		$scope.selectedJob = getSelectedJob(id);
+	}
+
+	$scope.closeOpenJob = function () {
+		console.log('close open job');
+		
+		$scope.editJob = false;
+		$scope.selectedJob = '';
+	}
+
+	$scope.setSelectedJob = function (id) {
+		$scope.selectedJob = getSelectedJob(id);
+	}
+	function getSelectedJob(id) {
+		$scope.editJob = true;
+		$http.get('/activejobs/'+id).success(function (response) {
+	   		return $scope.selectedJob = response[0];
+	   	});
+	}
 }
 
 function AddJobCtrl($scope,$http) {

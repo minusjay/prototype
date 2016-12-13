@@ -50,6 +50,20 @@ app.post('/activejobs',function (req,res) {
 		res.json(doc);
 	});
 });
+app.put('/activejobs/:id',function(req,res){
+	var id = req.params.id;
+	db.jobs.update(
+		{_id:mongojs.ObjectId(id)},
+		{
+			$push:{
+				'parts':{
+					'partNumber':req.body.partNumber,
+					'qty':req.body.quantity
+				}
+			}
+		}
+	);
+});
 
 app.get('/inventory',function (req,res) {
 	db.inventory.find(function (err,doc) {
