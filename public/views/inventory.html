@@ -26,7 +26,9 @@
 					<input type="number" class="form-control" id="part_low_quantity" placeholder="Low Quantity" ng-model="part.lowQuantity" size="5">
 				</div>
 
-				<button type="submit" class="btn btn-primary" ng-click="addPart()">Add Part</button>
+				<button type="button" class="btn btn-primary" ng-hide="editing" ng-click="addPart()">Add Part</button>
+				<button type="button" class="btn btn-primary" ng-show="editing" ng-click="updatePart(part._id)">Edit Part</button>
+				<button type="button" class="btn btn-primary" ng-click="cancelPart()">Cancel</button>
 			</form>
 		</div>
 	</div>
@@ -37,18 +39,20 @@
 				<table class="table table-striped">
 					<thead>
 						<tr>
-							<th>Part Number</th>
-							<th>Name</th>
+							<th><a  ng-click="sortType = 'name'; sortReverse = !sortReverse">Name</a></th>
+							<th><a  ng-click="sortType = 'partNumber'; sortReverse = !sortReverse">Part Number</a></th>
+							<th>Description</th>
 							<th>Quantity</th>
 							<th></th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="part in inventory" ng-class="part.quantity <= part.lowQuantity ? 'danger' : ''">
-							<td>{{part.partNumber}}</td>
-							<td>{{part.name}}</td>
-							<td>{{part.quantity}}</td>
-							<td><button class="btn btn-primary">edit</button></td>
+						<tr ng-repeat="parts in inventory | orderBy:sortType:sortReverse" ng-class="parts.quantity <= parts.lowQuantity ? 'danger' : ''">
+							<td>{{parts.name}}</td>
+							<td>{{parts.partNumber}}</td>
+							<td>{{parts.description}}</td>
+							<td>{{parts.quantity}}</td>
+							<td><button class="btn btn-primary" ng-click="editPart(parts._id)">edit</button></td>
 						</tr>
 					</tbody>
 				</table>

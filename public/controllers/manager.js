@@ -5,6 +5,7 @@ angular.module('airField',['ngRoute','ui.bootstrap'])
 	.controller('jobsCtrl', JobsCtrl)
 	.controller('addJobCtrl', AddJobCtrl)
 	.controller('jobDetailCtrl', JobDetailCtrl)
+	.controller('invoiceCtrl',InvoiceCtrl)
 	.factory('currentSpot',currentSpot)
 	.directive('ywActiveMenu',ywActiveMenu)
 	.directive('ywMenuId',ywMenuId)
@@ -20,6 +21,9 @@ angular.module('airField',['ngRoute','ui.bootstrap'])
 		});
 		$routeProvider.when('/jobDetail',{
 			templateUrl:'views/jobDetail.html'
+		});
+		$routeProvider.when('/invoice',{
+			templateUrl:'views/invoice.html'
 		});
 		$routeProvider.otherwise({
 			templateUrl:'views/dashboard.html'
@@ -108,9 +112,13 @@ function DashboardCtrl($scope,$http, currentSpot) {
 }
 
 function InventoryCtrl($scope, $http, currentSpot) {
-	currentSpot.setCurrentSpot('Inventory')
+	currentSpot.setCurrentSpot('Inventory');
+	$scope.sortType     = 'name'; // set the default sort type
+	$scope.sortReverse  = false;  // set the default sort order
+
 	var refresh = function () {
 		$scope.part = "";
+		$scope.editing = false;
 		$http.get('/inventory').success(function (response) {
 			$scope.inventory = response;
 		});
@@ -119,10 +127,26 @@ function InventoryCtrl($scope, $http, currentSpot) {
 
 	$scope.addPart = function () {
 		$http.post('/inventory',$scope.part).success(function (response) {
-			
 			refresh();
 		});
 	}
+
+	$scope.editPart = function (id) {
+		$scope.editing = true;
+		$http.get('/inventory/'+id).success(function (response) {
+			$scope.part = response;
+			console.log(response);
+		});
+	};
+	$scope.updatePart = function () {
+		$http.put('/inventory/'+$scope.part._id,$scope.part).success(function (response) {
+			refresh();
+		});
+	};
+	$scope.cancelPart = function () {
+		$scope.part = "";
+		refresh();
+	};
 }
 
 function JobsCtrl($scope,$http,$routeParams) {
@@ -152,18 +176,26 @@ function JobsCtrl($scope,$http,$routeParams) {
 
 	$scope.viewJob = function (id) {
 		$scope.selectedJob = getSelectedJob(id);
-	}
+	};
 
 	$scope.closeOpenJob = function () {
-		console.log('close open job');
-		
 		$scope.editJob = false;
 		$scope.selectedJob = '';
-	}
+	};
+	$scope.updateJob = function (id) {
+		if($scope.selectedJob.managerNotes.lenght < 1)
+			$scope.selectedJob.managerNotes = "Job Complete";
+
+		$http.put('/activejobs/'+id, $scope.selectedJob).success(function (response) {
+			//close job
+			$scope.editJob = false;
+			$scope.selectJob = '';
+		});
+	};
 
 	$scope.setSelectedJob = function (id) {
 		$scope.selectedJob = getSelectedJob(id);
-	}
+	};
 	function getSelectedJob(id) {
 		$scope.editJob = true;
 		$http.get('/activejobs/'+id).success(function (response) {
@@ -224,6 +256,10 @@ function AddJobCtrl($scope,$http) {
 }
 
 function JobDetailCtrl($scope) {
+}
+
+function InvoiceCtrl($scope, $http, currentSpot) {
+	// body...
 }
 
 //factory

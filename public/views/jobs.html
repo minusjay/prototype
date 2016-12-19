@@ -31,9 +31,9 @@
 					Job Special Instructions: {{selectedJob.instructions}}
 				</div>
 				<h4>Parts: </h4>
-				<p ng-repeat="part in selectedJob.parts">
-					{{part.partNumber}} - {{part.qty}}
-				</p>
+				<ul>
+					<li ng-repeat="part in selectedJob.parts"> {{part.partNumber}} - {{part.qty}}</li>
+				</ul>
 				
 				<div class="form-group">
 					Tech Assigned: {{getTechName(selectedJob.totalTime)}}
@@ -57,7 +57,7 @@
 				</div>
 
 				<button type="button" class="btn btn-default" ng-click="closeOpenJob()">Close</button>
-				<button type="submit" class="btn btn-primary" ng-click="updateJob(selectedJob._id)">Update</button>
+				<button type="submit" class="btn btn-primary" ng-click="updateJob(selectedJob._id)">Complete</button>
 			</div>
 		</form>
 	</div>

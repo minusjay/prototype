@@ -52,17 +52,11 @@ app.post('/activejobs',function (req,res) {
 });
 app.put('/activejobs/:id',function(req,res){
 	var id = req.params.id;
-	db.jobs.update(
-		{_id:mongojs.ObjectId(id)},
-		{
-			$push:{
-				'parts':{
-					'partNumber':req.body.partNumber,
-					'qty':req.body.quantity
-				}
-			}
-		}
-	);
+	db.jobs.findAndModify({query:{_id:mongojs.ObjectId(id)},
+		update:{$set:{managerNotes:req.body.managerNotes}},
+		new:true}, function(err,doc){
+			res.json(doc);
+		});
 });
 
 app.get('/inventory',function (req,res) {
