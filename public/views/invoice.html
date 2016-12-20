@@ -14,16 +14,118 @@
 					<th>Notes</th>
 				</thead>
 				<tbody>
-					<tr class="job-row" ng-repeat="job in jobs | orderBy : ['startDate','-startTime']" ng-click="setSelectedJob(job._id)">
+					<tr class="job-row" ng-repeat="job in jobs | orderBy : ['startDate','-startTime']" ng-click="createInvoice(job._id)" data-toggle="modal" href='#invoiceModal'>
 						<td>{{job.companyDetails[0].companyName}}</td>
 						<td>{{job.type}}</td>
 						<td>{{job.startDate}} {{job.startTime}}</td>
-						<td>{{job.jobCompleteDate}}, {{job.companyDetails[0].state}}</td>
+						<td>{{job.jobCompleteDate}}</td>
 						<td>{{job.totalTime}}</td>
 						<td>{{job.description}}<br>{{job.managerNotes}}</td>
 					</tr>
 				</tbody>
 			</table>
+		</div>
+	</div>
+	<div class="modal fade" id="invoiceModal">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-body">
+					<div class="container-fluid">
+					    <div class="row">
+					        <div class="col-xs-12">
+					    		<div class="invoice-title">
+					    			<h2>Invoice</h2><h3 class="pull-right">Order # {{seljob.jobId}}</h3>
+					    		</div>
+					    		<hr>
+					    		<div class="row">
+					    			<div class="col-xs-6">
+					    				<address>
+					    				<strong>Billed To:</strong><br>
+					    					{{seljob.companyDetails.contactName}} <br>
+					    					{{seljob.companyDetails.address}} <br>
+					    					{{seljob.companyDetails.city}}, {{seljob.companyDetails.state}} {{seljob.companyDetails.zip}} 
+					    				</address>
+					    			</div>
+					    			<div class="col-xs-6 text-right">
+					    				<address>
+					        			<strong>Shipped To:</strong><br>
+					    					{{seljob.companyDetails.contactName}} <br>
+					    					{{seljob.companyDetails.address}} <br>
+					    					{{seljob.companyDetails.city}}, {{seljob.companyDetails.state}} {{seljob.companyDetails.zip}}
+					    				</address>
+					    			</div>
+					    		</div>
+					    		<div class="row">
+					    			<div class="col-xs-6">
+					    				<address>
+					    					<strong>Payment Method:</strong><br>
+					    					Visa ending **** 4242<br>
+					    					jsmith@email.com
+					    				</address>
+					    			</div>
+					    			<div class="col-xs-6 text-right">
+					    				<address>
+					    					<strong>Order Date:</strong><br>
+					    					{{seljob.jobCompleteDate}}<br><br>
+					    				</address>
+					    			</div>
+					    		</div>
+					    	</div>
+					    </div>
+					    
+					    <div class="row">
+					    	<div class="col-md-12">
+					    		<div class="panel panel-default">
+					    			<div class="panel-heading">
+					    				<h3 class="panel-title"><strong>Job summary</strong></h3>
+					    			</div>
+					    			<div class="panel-body">
+					    				<div class="table-responsive">
+					    					<table class="table table-condensed">
+					    						<thead>
+					                                <tr>
+					        							<td><strong>Item</strong></td>
+					        							<td class="text-center"><strong>Price</strong></td>
+					        							<td class="text-center"><strong>Quantity</strong></td>
+					        							<td class="text-right"><strong>Totals</strong></td>
+					                                </tr>
+					    						</thead>
+					    						<tbody>
+					    							<!-- foreach ($order->lineItems as $line) or some such thing here -->
+					    							<tr ng-repeat="part in seljob.parts">
+					    								<td>{{part.partNumber}}: {{part.name}}</td>
+					    								<td class="text-center">-</td>
+					    								<td class="text-center">{{part.qty}}</td>
+					    								<td class="text-right">-</td>
+					    							</tr>
+					                                
+					    							<tr>
+					    								<td class="thick-line"></td>
+					    								<td class="thick-line"></td>
+					    								<td class="thick-line text-center"><strong>Subtotal</strong></td>
+					    								<td class="thick-line text-right">$---.--</td>
+					    							</tr>
+					    							
+					    							<tr>
+					    								<td class="no-line"></td>
+					    								<td class="no-line"></td>
+					    								<td class="no-line text-center"><strong>Total</strong></td>
+					    								<td class="no-line text-right">$---.--</td>
+					    							</tr>
+					    						</tbody>
+					    					</table>
+					    				</div>
+					    			</div>
+					    		</div>
+					    	</div>
+					    </div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<!-- <a class="btn btn-primary" href="#/jobs?id={{selectedJob._id}}" role="button" >Open</a> -->
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

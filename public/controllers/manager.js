@@ -259,7 +259,15 @@ function JobDetailCtrl($scope) {
 }
 
 function InvoiceCtrl($scope, $http, currentSpot) {
-	// body...
+	$http.get('/completedjobs').success(function (response) {
+		$scope.jobs = response;
+	});
+
+	$scope.createInvoice = function (id) {
+		$http.get('/activejobs/'+id).success(function (response) {
+	   		$scope.seljob = response[0];
+	   	});
+	};
 }
 
 //factory

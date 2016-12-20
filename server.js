@@ -60,6 +60,25 @@ app.put('/activejobs/:id',function(req,res){
 		});
 });
 
+app.get('/completedjobs',function (req,res) {
+	db.jobs.aggregate(
+		[
+			{$match:{managerNotes : null}},
+			{
+				$lookup:{
+					from:"companies",
+					localField:"companyId",
+					foreignField:"companyId",
+					as: "companyDetails"
+				}
+			}
+		], function (err,doc) {
+			// console.log(doc);
+			res.json(doc);
+		}
+	);
+});
+
 app.get('/inventory',function (req,res) {
 	db.inventory.find(function (err,doc) {
 		res.json(doc);
