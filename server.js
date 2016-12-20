@@ -11,6 +11,7 @@ app.use(bodyParser.json());
 app.get('/activejobs',function (req,res) {
 	db.jobs.aggregate(
 		[
+			{$match:{managerNotes:''}},
 			{
 				$lookup:{
 					from:"companies",

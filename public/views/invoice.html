@@ -1,0 +1,29 @@
+<div class="invoice"
+	yw-active-menu="Invoice"
+	yw-active-title="Invoice"
+	ng-controller="invoiceCtrl"	>
+	<div class="row">
+		<div class="col-sm-12">
+			<table class="table table-striped">
+				<thead>
+					<th>Company</th>
+					<th>Job Type</th>
+					<th>Startd</th>
+					<th>Completed</th>
+					<th>Time</th>
+					<th>Notes</th>
+				</thead>
+				<tbody>
+					<tr class="job-row" ng-repeat="job in jobs | orderBy : ['startDate','-startTime']" ng-click="setSelectedJob(job._id)">
+						<td>{{job.companyDetails[0].companyName}}</td>
+						<td>{{job.type}}</td>
+						<td>{{job.startDate}} {{job.startTime}}</td>
+						<td>{{job.jobCompleteDate}}, {{job.companyDetails[0].state}}</td>
+						<td>{{job.totalTime}}</td>
+						<td>{{job.description}}<br>{{job.managerNotes}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
