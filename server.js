@@ -59,11 +59,27 @@ app.put('/activejobs/:id',function(req,res){
 			res.json(doc);
 		});
 });
-
+app.get('/alljobs',function (req,res) {
+	db.jobs.aggregate(
+		[
+			{
+				$lookup:{
+					from:"companies",
+					localField:"companyId",
+					foreignField:"companyId",
+					as: "companyDetails"
+				}
+			}
+		], function (err,doc) {
+			// console.log(doc);
+			res.json(doc);
+		}
+	);
+});
 app.get('/completedjobs',function (req,res) {
 	db.jobs.aggregate(
 		[
-			{$match:{managerNotes : null}},
+			{$match:{managerNotes : {$exists:true}}},
 			{
 				$lookup:{
 					from:"companies",

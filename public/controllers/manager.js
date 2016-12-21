@@ -165,6 +165,10 @@ function JobsCtrl($scope,$http,$routeParams) {
 	$http.get('/activejobs').success(function (response) {
 		$scope.jobs = response;
 	});
+	
+	$http.get('/alljobs').success(function (response) {
+		$scope.alljobs = response;
+	});
 
 	$http.get('/inventory').success(function (response) {
 		$scope.inventory = response;
