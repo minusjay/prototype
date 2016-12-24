@@ -42,7 +42,7 @@
 					Tech Notes: {{selectedJob.techNotes}}
 				</div>
 				<div class="form-group">
-					Complete Date: <input type="text" ng-model="selectedJob.completeDate" class="form-control" placeholder="Completed Date"/>
+					Complete Date: <input type="text" ng-model="selectedJob.jobCompleteDate" class="form-control" placeholder="Completed Date"/>
 				</div>
 				<div class="form-group">
 					Total Time: {{selectedJob.totalTime}}
@@ -102,7 +102,7 @@
 						<td>{{job2.companyDetails[0].companyName}}</td>
 						<td>{{job2.type}}</td>
 						<td>{{job2.startDate}} {{job2.startTime}}</td>
-						<td>{{jobs2.completeDate}}</td>
+						<td>{{jobs2.jobCompleteDate}}</td>
 						<td>{{job2.companyDetails[0].city}}, {{job2.companyDetails[0].state}}</td>
 					</tr>
 				</tbody>

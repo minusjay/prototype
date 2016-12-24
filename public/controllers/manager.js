@@ -1,3 +1,5 @@
+var now = new Date().getTime();
+
 angular.module('airField',['ngRoute','ui.bootstrap'])
 	.controller('coreCtrl',CoreCtrl)
 	.controller('dashboardCtrl', DashboardCtrl)
@@ -66,8 +68,6 @@ function DashboardCtrl($scope,$http, currentSpot) {
 	$http.get('/techJobs').success(function (response) {
 		$scope.techs = response;
 	});
-
-	var now = new Date().getTime();
 
 	$scope.date = new Date(2015, 10, 10);
 	$scope.ago = now < $scope.date.getTime();
@@ -165,7 +165,7 @@ function JobsCtrl($scope,$http,$routeParams) {
 	$http.get('/activejobs').success(function (response) {
 		$scope.jobs = response;
 	});
-	
+
 	$http.get('/alljobs').success(function (response) {
 		$scope.alljobs = response;
 	});
@@ -187,13 +187,17 @@ function JobsCtrl($scope,$http,$routeParams) {
 		$scope.selectedJob = '';
 	};
 	$scope.updateJob = function (id) {
-		if($scope.selectedJob.managerNotes.lenght < 1)
+		if($scope.selectedJob.managerNotes.length < 1){
 			$scope.selectedJob.managerNotes = "Job Complete";
-
+		}
+		
 		$http.put('/activejobs/'+id, $scope.selectedJob).success(function (response) {
 			//close job
 			$scope.editJob = false;
 			$scope.selectJob = '';
+		})
+		.error(function () {
+			console.log('error update job');
 		});
 	};
 
