@@ -79,7 +79,7 @@ app.get('/alljobs',function (req,res) {
 app.get('/completedjobs',function (req,res) {
 	db.jobs.aggregate(
 		[
-			{$match:{managerNotes : {$exists:true}}},
+			{$match:{managerNotes : {$exists:true}, $where: "this.managerNotes.length > 0"}},
 			{
 				$lookup:{
 					from:"companies",

@@ -119,8 +119,10 @@
 				<option value="">Select Technician</option>
 			</select>
 		</div>
-		<input type="hidden" ng-model="newJob.jobCompleteDate">
-		<input type="hidden" ng-model="newJob.managerNotes">
+		<input type="hidden" ng-model="newJob.jobCompleteDate" value="">
+		<input type="hidden" ng-model="newJob.totalTime" value="">
+		<input type="hidden" ng-model="newJob.n otes" value="">
+		<input type="hidden" ng-model="newJob.managerNotes" value="">
 		<button type="submit" class="btn btn-primary" ng-click="addJob()">Submit</button>
 	</form>
 </div>
