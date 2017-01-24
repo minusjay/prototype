@@ -7,6 +7,7 @@
 			<div class="col-sm-4">
 				<h2>Company</h2>
 				<address>
+					<h3>{{selectedJob.companyDetails.companyName}}</h3>
 					<strong>Contact: {{selectedJob.companyDetails.contactName}}</strong><br>
 					{{selectedJob.companyDetails.address}}<br>
 					{{selectedJob.companyDetails.city}}, {{selectedJob.companyDetails.state}}, {{selectedJob.companyDetails.zip}}<br>
@@ -35,9 +36,15 @@
 					<li ng-repeat="part in selectedJob.parts"> {{part.partNumber}} - {{part.qty}}</li>
 				</ul>
 				
-				<div class="form-group">
-					Tech Assigned: {{getTechName(selectedJob.totalTime)}}
+				<div class="form-group" >
+					Tech Assigned: {{selectedJob.techAssignedName}} {{selectedJob.techAssignedId}}
 				</div>
+				<div class="form-group" >
+					<select name="selectTech" id="inputSelectTech" class="form-control" ng-model="selectedJob.techAssignedId" ng-options="tech.fname +' '+ tech.lname for tech in technicians track by tech.techNumber" ng-readonly="selectedJob.techAssignedId">
+						<option value="">Select Technician</option>
+					</select>
+				</div>
+
 				<div class="form-group">
 					Tech Notes: {{selectedJob.techNotes}}
 				</div>
@@ -45,14 +52,14 @@
 					Complete Date: <input type="text" ng-model="selectedJob.jobCompleteDate" class="form-control" placeholder="Completed Date"/>
 				</div>
 				<div class="form-group">
-					Total Time: {{selectedJob.totalTime}}
+					Total Time: <input type="text" class="form-control" ng-model="selectedJob.totalTime" placeholder="Total Time" /> 
 				</div>
 			</div>
 			<div class="col-sm-4">
 				<h2>Manager</h2>
 				<div class="form-group">
 					Job Number:
-					<input type="text" class="form-control" ng-model="selectedJob.job_id"/>
+					<input type="text" class="form-control" ng-model="selectedJob.jobId"/>
 				</div>
 				
 				<div class="form-group">
@@ -106,7 +113,7 @@
 						<td>{{job2.companyDetails[0].companyName}}</td>
 						<td>{{job2.type}}</td>
 						<td>{{job2.startDate}} {{job2.startTime}}</td>
-						<td>{{jobs2.jobCompleteDate}}</td>
+						<td>{{job2.jobCompleteDate}}</td>
 						<td>{{job2.companyDetails[0].city}}, {{job2.companyDetails[0].state}}</td>
 					</tr>
 				</tbody>

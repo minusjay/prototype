@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 app.get('/activejobs',function (req,res) {
 	db.jobs.aggregate(
 		[
-			{$match:{managerNotes:''}},
+			{$match:{jobCompleteDate: null}},
 			{
 				$lookup:{
 					from:"companies",
@@ -47,6 +47,9 @@ app.get('/activejobs/:id',function (req,res) {
 	);
 });
 app.post('/activejobs',function (req,res) {
+	//post new job to db.job 
+	//if job has techId update db.techActiveJob with company name and location
+
 	db.jobs.insert(req.body,function (err,doc) {
 		res.json(doc);
 	});
@@ -54,7 +57,13 @@ app.post('/activejobs',function (req,res) {
 app.put('/activejobs/:id',function(req,res){
 	var id = req.params.id;
 	db.jobs.findAndModify({query:{_id:mongojs.ObjectId(id)},
-		update:{$set:{managerNotes:req.body.managerNotes}},
+		update:{$set:{
+			techAssignedId:req.body.techAssignedId,
+			jobCompleteDate:req.body.jobCompleteDate,
+			totalTime:req.body.totalTime,
+			jobId:req.body.jobId,
+			managerNotes:req.body.managerNotes,
+		}},
 		new:true}, function(err,doc){
 			res.json(doc);
 		});
@@ -79,7 +88,7 @@ app.get('/alljobs',function (req,res) {
 app.get('/completedjobs',function (req,res) {
 	db.jobs.aggregate(
 		[
-			{$match:{managerNotes : {$exists:true}, $where: "this.managerNotes.length > 0"}},
+			{$match:{jobCompleteDate : {$ne:null}}},
 			{
 				$lookup:{
 					from:"companies",
@@ -93,6 +102,35 @@ app.get('/completedjobs',function (req,res) {
 			res.json(doc);
 		}
 	);
+});
+app.get('/activeJobFull',function (req,res) {
+	db.jobs.aggregate([
+		{$match:{jobCompleteDate: null}},
+		{
+			$lookup:{
+				from:'companies',
+				localField:'companyId',
+				foreignField:'companyId',
+				as:'companyDetails'
+			}
+		},
+		{
+			$unwind:'$companyDetails'
+		},
+		{
+			$lookup:{
+				from:'technician',
+				localField:'techAssignedId',
+				foreignField:'techNumber',
+				as:'techDetails'
+			}
+		},
+		{
+			$unwind:'$techDetails'
+		}
+	],function(err,doc){
+		res.json(doc);
+	});
 });
 
 app.get('/inventory',function (req,res) {
@@ -120,18 +158,11 @@ app.put('/inventory/:id',function (req,res) {
 		});
 });
 
-app.get('/techJobs',function (req,res) {
-	db.techActiveJob.find(function(err,doc){
-		res.json(doc);
-	});
-});
-
 app.get('/companies',function (req,res) {
 	db.companies.find(function (err,doc) {
 		res.json(doc);
 	});
 });
-
 app.get("/companies/:id",function (req,res) {
 	var id = req.params.id;
 	db.companies.findOne({_id: mongojs.ObjectId(id)}, function (err,doc) {
@@ -143,6 +174,65 @@ app.get('/technician',function (req,res) {
 	db.technician.find(function (err,doc) {
 		res.json(doc);
 	});
+});
+
+app.get('/techJobs',function (req,res) {
+	db.techActiveJob.find(function(err,doc){
+		res.json(doc);
+	});
+});
+app.put('/techJobs/:id',function (req,res) {
+	var id = req.params.id
+		_companyName = req.body.companyName,
+		_location = req.body.city + ', ' + req.body.state +' '+req.body.zip;
+	console.log('techJobs:'+id +' '+_companyName);
+	
+	db.techActiveJob.findAndModify({
+		query:{techNumber:id},
+		update:{$set: {companyName:_companyName, location: _location}},
+		new:true
+	},
+		function (err,doc) {
+			res.json(doc);
+			
+		});
+});
+
+app.put('/updateJobTech', function (req,res) {
+	var id = req.body._id,
+		techAssignedId = req.body.techAssignedId,
+		jobCompleteDate = req.body.jobCompleteDate,
+		totalTime = req.body.totalTime,
+		jobId = req.body.jobId,
+		managerNotes = req.body.managerNotes,
+		_companyName = req.body.companyId,
+		_location = req.body.location;
+
+	db.techActiveJob.findAndModify({
+		query:{techNumber:techAssignedId},
+		update:{$set: {companyName:_companyName, location: _location}},
+		new:true
+	},
+		function (err,doc) {
+			// res.json(doc);
+			console.log('active tech update error: '+err);
+			
+		});
+
+	db.jobs.findAndModify({query:{_id:mongojs.ObjectId(id)},
+		update:{$set:{
+			techAssignedId:techAssignedId,
+			jobCompleteDate:jobCompleteDate,
+			totalTime:totalTime,
+			jobId:jobId,
+			managerNotes:managerNotes,
+		}},
+		new:true},
+		function (err,doc) {
+			// res.json(doc);
+			console.log('job update err '+err);
+			
+		});
 });
 //tech end points
 

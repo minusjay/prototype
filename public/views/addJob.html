@@ -56,7 +56,7 @@
 			</select>
 		</div>
 
-		<div class="company well" ng-show="companyShow">
+		<!-- <div class="company well" ng-show="companyShow">
 			<div class="form-group">
 				<input type="hidden" name="companyID" ng-model="company._id">
 				<input type="text" name="companyName" id="inputCompanyName" class="form-control" placeholder="Company Name" ng-model="company.companyName">
@@ -79,7 +79,7 @@
 			<div class="form-group">
 				<input type="text" name="companyPhone" id="inputCompanyPhone" class="form-control" placeholder="Company Phone" ng-model="company.phone">
 			</div>
-		</div>
+		</div> -->
 		
 		<div class="form-group"><input type="text" class="form-control" name="jobType" id="jobType" ng-model="newJob.type" placeholder="Job Type"></div>
 		<div class="form-group"><input type="text" class="form-control" name="startDate" id="startDate" ng-model="newJob.startDate" placeholder="Start Date"></div>
@@ -87,11 +87,11 @@
 		<div class="form-group"><input type="text" class="form-control" name="endDate" id="endDate" ng-model="newJob.endDate" placeholder="End Date"></div>
 		<div class="form-group">
 			Job Description
-			<textarea name="description" id="description" cols="30" rows="10" class="form-control" ng-model="newJob.description"></textarea>
+			<textarea name="description" id="description" cols="30" rows="3" class="form-control" ng-model="newJob.description"></textarea>
 		</div>
 		<div class="form-group">
 			Job Special Instructions
-			<textarea name="instructions" id="instructions" cols="30" rows="10" class="form-control" ng-model="newJob.instructions"></textarea>
+			<textarea name="instructions" id="instructions" cols="30" rows="3" class="form-control" ng-model="newJob.instructions"></textarea>
 		</div>
 
 		<div class="form-group row" ng-repeat="item in inventory">
@@ -119,10 +119,10 @@
 				<option value="">Select Technician</option>
 			</select>
 		</div>
-		<input type="hidden" ng-model="newJob.jobCompleteDate" value="">
+		<!-- <input type="hidden" ng-model="newJob.jobCompleteDate" value="">
 		<input type="hidden" ng-model="newJob.totalTime" value="">
 		<input type="hidden" ng-model="newJob.n otes" value="">
-		<input type="hidden" ng-model="newJob.managerNotes" value="">
+		<input type="hidden" ng-model="newJob.managerNotes" value=""> -->
 		<button type="submit" class="btn btn-primary" ng-click="addJob()">Submit</button>
 	</form>
 </div>

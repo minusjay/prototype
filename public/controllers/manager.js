@@ -69,6 +69,11 @@ function DashboardCtrl($scope,$http, currentSpot) {
 		$scope.techs = response;
 	});
 
+	$http.get('/activeJobFull').success(function (response) {
+		console.log(response);
+		$scope.fullTech = response;
+	});
+
 	$scope.date = new Date(2015, 10, 10);
 	$scope.ago = now < $scope.date.getTime();
 	$scope.before = now > $scope.date.getTime();
@@ -149,7 +154,7 @@ function InventoryCtrl($scope, $http, currentSpot) {
 	};
 }
 
-function JobsCtrl($scope,$http,$routeParams) {
+function JobsCtrl($scope,$http,$routeParams,$filter) {
 	$('body').removeClass('modal-open');
 	$('.modal-backdrop').remove();
 	
@@ -157,26 +162,33 @@ function JobsCtrl($scope,$http,$routeParams) {
 	
 	$scope.selectedJob = '';
 	$scope.jobID = job_id;
+	$scope.technicians ="";
 	
 	if(job_id){
 		$scope.selectedJob = getSelectedJob(job_id);
 	}
+	var refreshJobs = function () {
+		$http.get('/activejobs').success(function (response) {
+			$scope.jobs = response;
+		});
 
-	$http.get('/activejobs').success(function (response) {
-		$scope.jobs = response;
-	});
+		$http.get('/alljobs').success(function (response) {
+			$scope.alljobs = response;
+		});
 
-	$http.get('/alljobs').success(function (response) {
-		$scope.alljobs = response;
-	});
+		$http.get('/inventory').success(function (response) {
+			$scope.inventory = response;
+		});
 
-	$http.get('/inventory').success(function (response) {
-		$scope.inventory = response;
-	});
+		$http.get('/technician').success(function (response) {
+			$scope.technicians = response;
+		});
 
-	$http.get('/technician').success(function (response) {
-		$scope.technicians = response;
-	});
+		$http.get('/companies').success(function (response) {
+			$scope.companies = response;
+		});
+	};
+	refreshJobs();
 
 	$scope.viewJob = function (id) {
 		$scope.selectedJob = getSelectedJob(id);
@@ -187,29 +199,54 @@ function JobsCtrl($scope,$http,$routeParams) {
 		$scope.selectedJob = '';
 	};
 	$scope.updateJob = function (id) {
-		if($scope.selectedJob.managerNotes.length < 1){
-			$scope.selectedJob.managerNotes = "Job Complete";
-		}
+		//make a new enpoint that does all the work
+		var company_id = $scope.selectedJob.companyDetails._id,
+			selCompany = $filter("filter")($scope.companies,{companyId:company_id},true),
+			selCompName = selCompany.length == 1? selCompany[0].companyName : null,
+			selCompLoc = selCompany.length == 1? selCompany[0].location : null;
+
+		var updates = {
+			_id:id,
+			techAssignedId:$scope.selectedJob.techAssignedId.techNumber,
+			jobCompleteDate:$scope.selectedJob.jobCompleteDate,
+			totalTime:$scope.selectedJob.totalTime,
+			jobId:$scope.selectedJob.jobId,
+			managerNotes:$scope.selectedJob.managerNotes,
+			companyName:selCompName,
+			location:selCompLoc
+		};
 		
-		$http.put('/activejobs/'+id, $scope.selectedJob).success(function (response) {
-			//close job
-			$scope.editJob = false;
-			$scope.selectJob = '';
-		})
-		.error(function () {
-			console.log('error update job');
-		});
+		/*if($scope.selectedJob.techAssignedName == "No Tech Assigned" ){
+			//no tech set
+			$http.put('/updateJobTech',updates).success(function (response) {
+				console.log('update eveything');
+			});
+		} else {
+		}*/
+			$http.put('/activejobs/'+id, updates).success(function (response) {
+				$scope.editJob = false;
+				$scope.selectJob = '';
+				refreshJobs();
+				
+			});
+
 	};
 
 	$scope.setSelectedJob = function (id) {
 		$scope.selectedJob = getSelectedJob(id);
 	};
+	
 	function getSelectedJob(id) {
 		$scope.editJob = true;
+		$scope.selectedJob.techAssignedName = "";
 		$http.get('/activejobs/'+id).success(function (response) {
-	   		return $scope.selectedJob = response[0];
+	   		$scope.selectedJob = response[0];
+	   		var techName = $filter("filter")($scope.technicians, {techNumber:$scope.selectedJob.techAssignedId},true);
+	   		$scope.selectedJob.techAssignedName = techName.length == 1 ? techName[0].fname +' '+techName[0].lname : "No Tech Assigned";
+	   		return $scope.selectedJob;
 	   	});
 	}
+
 }
 
 function AddJobCtrl($scope,$http) {
@@ -269,6 +306,8 @@ function JobDetailCtrl($scope) {
 function InvoiceCtrl($scope, $http, currentSpot) {
 	$http.get('/completedjobs').success(function (response) {
 		$scope.jobs = response;
+		console.log(response);
+		
 	});
 
 	$scope.createInvoice = function (id) {

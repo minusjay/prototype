@@ -41,10 +41,10 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="tech in techs" ng-class="tech.location == ''? 'danger':''">
-							<td>{{tech.techName}}</td>
-							<td>{{tech.comanyName}}</td>
-							<td>{{tech.location}}</td>
+						<tr ng-repeat="tech in fullTech" >
+							<td>{{tech.techDetails.fname +' '+tech.techDetails.lname}}</td>
+							<td>{{tech.companyDetails.companyName}}</td>
+							<td>{{tech.companyDetails.city +', '+ tech.companyDetails.state +' '+tech.companyDetails.zip}}</td>
 						</tr>
 					</tbody>
 				</table>
