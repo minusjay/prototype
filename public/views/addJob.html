@@ -82,9 +82,39 @@
 		</div> -->
 		
 		<div class="form-group"><input type="text" class="form-control" name="jobType" id="jobType" ng-model="newJob.type" placeholder="Job Type"></div>
-		<div class="form-group"><input type="text" class="form-control" name="startDate" id="startDate" ng-model="newJob.startDate" placeholder="Start Date"></div>
-		<div class="form-group"><input type="text" class="form-control" name="startTime" id="startTime" ng-model="newJob.startTime" placeholder="Start Time"></div>
-		<div class="form-group"><input type="text" class="form-control" name="endDate" id="endDate" ng-model="newJob.endDate" placeholder="End Date"></div>
+		<div class="form-group">
+			<!-- <input type="text" class="form-control" name="startDate" id="startDate" ng-model="newJob.startDate" placeholder="Start Date"> -->
+			<div class='input-group date' id='datetimepicker1'>
+                <input type='text' class="form-control" ng-model="newJob.startDate" placeholder="Start Date" />
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+            <script type="text/javascript">
+	            $(function () {
+	                $('#datetimepicker1').datetimepicker({
+	                	format: 'MM/DD/YYYY'
+	                });
+	            });
+	        </script>
+		</div>
+		<div class="form-group sr-only"><input type="text" class="form-control" name="startTime" id="startTime" ng-model="newJob.startTime" placeholder="Start Time"></div>
+		<div class="form-group">
+			<!-- <input type="text" class="form-control" name="endDate" id="endDate" ng-model="newJob.endDate" placeholder="End Date"> -->
+			<div class='input-group date' id='datetimepicker2'>
+                <input type='text' class="form-control" ng-model="newJob.endDate" placeholder="End Date" />
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+            <script type="text/javascript">
+	            $(function () {
+	                $('#datetimepicker2').datetimepicker({
+	                	format: 'MM/DD/YYYY'
+	                });
+	            });
+	        </script>
+		</div>
 		<div class="form-group">
 			Job Description
 			<textarea name="description" id="description" cols="30" rows="3" class="form-control" ng-model="newJob.description"></textarea>
