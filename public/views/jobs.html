@@ -20,10 +20,12 @@
 					Type of Job: {{selectedJob.type}}
 				</div>
 				<div class="form-group">
-					Start Date: {{selectedJob.startDate +' '+ selectedJob.startTime}}
+					Start Date: 
+					<input type="text" class="form-control" ng-model="selectedJob.startDate">
 				</div>
 				<div class="form-group">
-					End Date: {{selectedJob.endDate}}
+					End Date: 
+					<input type="text" class="form-control" ng-model="selectedJob.endDate">
 				</div>
 				<div class="form-group">
 					Job Description: {{selectedJob.description}}

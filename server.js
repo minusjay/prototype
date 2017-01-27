@@ -19,7 +19,19 @@ app.get('/activejobs',function (req,res) {
 					foreignField:"companyId",
 					as: "companyDetails"
 				}
-			}
+			},
+				{
+					$lookup:{
+						from:'technician',
+						localField:'techAssignedId',
+						foreignField:'techNumber',
+						as:'techDetails'
+					}
+				},
+				{
+					$unwind:'$techDetails'
+				}
+			
 		], function (err,doc) {
 			// console.log(doc);
 			res.json(doc);
@@ -63,6 +75,8 @@ app.put('/activejobs/:id',function(req,res){
 			totalTime:req.body.totalTime,
 			jobId:req.body.jobId,
 			managerNotes:req.body.managerNotes,
+			startDate:req.body.startDate,
+			endDate:req.body.endDate
 		}},
 		new:true}, function(err,doc){
 			res.json(doc);

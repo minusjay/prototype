@@ -63,6 +63,8 @@ function DashboardCtrl($scope,$http, currentSpot) {
 
 	$http.get('/activejobs').success(function (response) {
 		$scope.jobs = response;
+		console.log(response);
+		
 	});
 	
 	$http.get('/techJobs').success(function (response) {
@@ -71,7 +73,36 @@ function DashboardCtrl($scope,$http, currentSpot) {
 
 	$http.get('/activeJobFull').success(function (response) {
 		console.log(response);
-		$scope.fullTech = response;
+		$scope.fullTech = [
+			{
+				techDetails:{fname:'John', lname:'Smith'},
+				companyDetails:{
+					companyName:'Bobs Auto',
+					city:'New City',
+					state:'NJ',
+					zip:''
+				}
+			},
+			{
+				techDetails:{fname:'Nick', lname:'Ryan'},
+				companyDetails:{
+					companyName:'Some Company',
+					city:'Some City',
+					state:'NJ',
+					zip:''
+				}
+			},
+			{
+				techDetails:{fname:'Jeff', lname:'Stevens'},
+				companyDetails:{
+					companyName:'Ricks Stuff',
+					city:'Next City',
+					state:'NJ',
+					zip:''
+				}
+			},
+		];
+
 	});
 
 	$scope.date = new Date(2015, 10, 10);
@@ -213,7 +244,9 @@ function JobsCtrl($scope,$http,$routeParams,$filter) {
 			jobId:$scope.selectedJob.jobId,
 			managerNotes:$scope.selectedJob.managerNotes,
 			companyName:selCompName,
-			location:selCompLoc
+			location:selCompLoc,
+			startDate:$scope.selectedJob.startDate,
+			endDate:$scope.selectedJob.endDate
 		};
 		
 		/*if($scope.selectedJob.techAssignedName == "No Tech Assigned" ){

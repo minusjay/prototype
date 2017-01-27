@@ -13,6 +13,7 @@
 						<th>Job Type</th>
 						<th>Start Date</th>
 						<th>Location</th>
+						<th>Tech</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -21,6 +22,7 @@
 						<td>{{job.type}}</td>
 						<td>{{job.startDate}} {{job.startTime}}</td>
 						<td>{{job.companyDetails[0].city}}, {{job.companyDetails[0].state}}</td>
+						<td> {{job.techDetails.fname +' '+ job.techDetails.lname}} </td>
 					</tr>
 				</tbody>
 			</table>
@@ -51,7 +53,7 @@
 			</div>
 		</div>
 		<div class="col-md-5">
-			<h2>Inventory View</h2>
+			<h2>Inventory View <input class="form-control" width="10" ng-model="partFilter.name" placeholder="Search" /></h2>
 			<div class="table-responsive">
 				<table class="table table-striped">
 					<thead>
@@ -71,7 +73,7 @@
 							<td> <button class="btn btn-primary" ng-click="updateInv(inv._id)">save</button> </td>
 							<td><button class="btn btn-primary" ng-click="cancelInv()">cancel</button></td>
 						</tr>
-						<tr ng-repeat="part in inventory" ng-class="part.quantity <= part.lowQuantity ? 'danger' : ''">
+						<tr ng-repeat="part in inventory | filter : partFilter" ng-class="part.quantity <= part.lowQuantity ? 'danger' : ''">
 							<td>{{part.partNumber}}</td>
 							<td>{{part.name}}</td>
 							<td>{{part.quantity}}</td>
